@@ -43,12 +43,15 @@ def build_instruction(mode: str) -> str:
 
 
 def extract_generated_text(data: Mapping[str, Any]) -> str:
-    """Safely extract generated text from a Gemini generateContent response."""
+    """Safely extract normalized text from a Gemini generateContent response."""
     try:
         parts = data["candidates"][0]["content"]["parts"]
-        result = "\n".join(
-            part["text"] for part in parts if isinstance(part.get("text"), str)
-        ).strip()
+        text_parts = [
+            part["text"].strip()
+            for part in parts
+            if isinstance(part, dict) and isinstance(part.get("text"), str) and part["text"].strip()
+        ]
+        result = "\\n".join(text_parts).strip()
     except (KeyError, IndexError, TypeError, AttributeError) as exc:
         raise ValueError("Gemini response did not contain generated text") from exc
 
