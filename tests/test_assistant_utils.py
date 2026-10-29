@@ -101,16 +101,17 @@ def test_request_with_retries_stops_after_max_attempts():
     assert waits == [2, 4]
 
 
-def test_request_with_retries_requires_positive_attempt_count():
+@pytest.mark.parametrize("max_attempts", [0, -1, 1.5, "3", True])
+def test_request_with_retries_requires_positive_integer_attempt_count(max_attempts):
     from assistant_utils import request_with_retries
 
-    with pytest.raises(ValueError, match="at least 1"):
+    with pytest.raises(ValueError, match="positive integer"):
         request_with_retries(
             lambda *_args, **_kwargs: FakeResponse(200),
             "https://example.invalid/generate",
             headers={},
             payload={},
-            max_attempts=0,
+            max_attempts=max_attempts,
         )
 
 
