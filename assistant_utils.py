@@ -38,3 +38,38 @@ def extract_generated_text(data: Mapping[str, Any]) -> str:
     if not result:
         raise ValueError("Gemini response did not contain generated text")
     return result
+
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+
+
+def request_with_retries(
+    post,
+    url: str,
+    *,
+    headers: Mapping[str, str],
+    payload: Mapping[str, Any],
+    timeout: int = 60,
+    max_attempts: int = 4,
+    sleep_fn=None,
+    jitter_fn=None,
+):
+    """Call a POST function, retrying only transient Gemini HTTP statuses.
+
+    sleep_fn and jitter_fn are injectable so retry behavior can be tested
+    without waiting or making network requests.
+    """
+    import random
+    import time
+
+    sleep = sleep_fn or time.sleep
+    jitter = jitter_fn or random.uniform
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be at least 1")
+
+    response = None
+    for attempt in range(max_attempts):
+        response = post(url, headers=dict(headers), json=dict(payload), timeout=timeout)
+        if response.status_code not in RETRYABLE_STATUS_CODES or attempt == max_attempts - 1:
+            return response
+        sleep((2 ** (attempt + 1)) + jitter(0, 1))
+    return response
