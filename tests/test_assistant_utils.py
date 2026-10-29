@@ -1,6 +1,6 @@
 import pytest
 
-from assistant_utils import build_instruction, extract_generated_text
+from assistant_utils import build_instruction, extract_generated_text, validate_study_text
 
 
 @pytest.mark.parametrize(
@@ -112,3 +112,23 @@ def test_request_with_retries_requires_positive_attempt_count():
             payload={},
             max_attempts=0,
         )
+
+
+@pytest.mark.parametrize("text", ["", "   ", "\\n\\t"])
+def test_validate_study_text_rejects_blank_input(text):
+    with pytest.raises(ValueError, match="enter notes or a topic"):
+        validate_study_text(text)
+
+
+def test_validate_study_text_trims_surrounding_whitespace():
+    assert validate_study_text("  chapter notes  ") == "chapter notes"
+
+
+def test_validate_study_text_rejects_oversized_input():
+    with pytest.raises(ValueError, match="10 characters or fewer"):
+        validate_study_text("x" * 11, max_chars=10)
+
+
+def test_validate_study_text_rejects_non_text_input():
+    with pytest.raises(ValueError, match="must be text"):
+        validate_study_text(None)
