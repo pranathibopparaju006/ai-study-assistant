@@ -80,8 +80,8 @@ def request_with_retries(
 
     sleep = sleep_fn or time.sleep
     jitter = jitter_fn or random.uniform
-    if max_attempts < 1:
-        raise ValueError("max_attempts must be at least 1")
+    if isinstance(max_attempts, bool) or not isinstance(max_attempts, int) or max_attempts < 1:
+        raise ValueError("max_attempts must be a positive integer")
 
     response = None
     for attempt in range(max_attempts):
