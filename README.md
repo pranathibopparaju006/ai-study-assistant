@@ -1,5 +1,6 @@
 # 📚 AI Study Assistant
 
+[![GitHub Actions](https://github.com/pranathibopparaju006/ai-study-assistant/actions/workflows/python-checks.yml/badge.svg)](https://github.com/pranathibopparaju006/ai-study-assistant/actions/workflows/python-checks.yml)
 An AI-powered learning companion that helps students understand study material through concise summaries, multiple-choice quizzes, and simple explanations using Google's Gemini AI.
 
 🚀 **Live Demo:** [Try AI Study Assistant](https://ai-study-assistant-lbqoqvgdmvdcv2h4eg3bnbr.streamlit.app)
@@ -126,5 +127,6 @@ GitHub: [@pranathibopparaju006](https://github.com/pranathibopparaju006)
 ---
 
 *Built to make learning more interactive and accessible with AI.*
+
 
 
