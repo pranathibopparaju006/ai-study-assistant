@@ -132,3 +132,9 @@ def test_validate_study_text_rejects_oversized_input():
 def test_validate_study_text_rejects_non_text_input():
     with pytest.raises(ValueError, match="must be text"):
         validate_study_text(None)
+
+
+@pytest.mark.parametrize("max_chars", [0, -1, 1.5, "10", True])
+def test_validate_study_text_rejects_invalid_max_chars(max_chars):
+    with pytest.raises(ValueError, match="positive integer"):
+        validate_study_text("notes", max_chars=max_chars)
