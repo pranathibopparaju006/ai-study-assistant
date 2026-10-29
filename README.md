@@ -115,7 +115,7 @@ GitHub Actions runs these checks on pushes and pull requests. The tests validate
 - Difficulty-based quizzes
 - Flashcards and spaced repetition
 - Progress tracking and personalized learning
-- PDF and document uploads\n- Persistent study history\n- Difficulty-based quizzes\n- Flashcards and spaced repetition\n- Progress tracking and personalized learning\n- More UI and integration tests
+- More UI and integration tests
 
 ## 👩‍💻 Author
 
