@@ -1,6 +1,9 @@
+from pathlib import Path
+
 from streamlit.testing.v1 import AppTest
 
 
+APP_PATH = Path(__file__).resolve().parents[1] / "app.py"
 STUDY_MODES = [
     "Summarize Notes",
     "Generate Quiz",
@@ -8,8 +11,12 @@ STUDY_MODES = [
 ]
 
 
+def _run_app():
+    return AppTest.from_file(str(APP_PATH), default_timeout=10).run()
+
+
 def test_app_renders_all_three_study_modes():
-    app = AppTest.from_file("app.py", default_timeout=10).run()
+    app = _run_app()
 
     assert not app.exception
     assert app.title[0].value == "📚 AI Study Assistant"
@@ -17,7 +24,7 @@ def test_app_renders_all_three_study_modes():
 
 
 def test_generate_button_warns_when_notes_are_blank():
-    app = AppTest.from_file("app.py", default_timeout=10).run()
+    app = _run_app()
     app.button[0].click().run()
 
     assert not app.exception
@@ -28,8 +35,10 @@ def test_generate_button_warns_when_notes_are_blank():
 
 
 def test_nonempty_notes_explain_missing_api_key():
-    app = AppTest.from_file("app.py", default_timeout=10).run()
-    app.text_area[0].set_value("Photosynthesis converts light energy into chemical energy.")
+    app = _run_app()
+    app.text_area[0].set_value(
+        "Photosynthesis converts light energy into chemical energy."
+    )
     app.button[0].click().run()
 
     assert not app.exception
