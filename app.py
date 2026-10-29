@@ -18,7 +18,7 @@ st.caption("Your personal AI-powered learning companion")
 
 try:
     API_KEY = st.secrets.get("GEMINI_API_KEY", "")
-except (KeyError, FileNotFoundError):
+except Exception:
     API_KEY = ""
 
 MODEL_URL = (
