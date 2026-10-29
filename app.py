@@ -1,10 +1,7 @@
-import random
-import time
-
 import requests
 import streamlit as st
 
-from assistant_utils import build_instruction, extract_generated_text
+from assistant_utils import build_instruction, extract_generated_text, request_with_retries
 
 
 st.set_page_config(
@@ -73,22 +70,13 @@ if st.button("✨ Generate with AI", type="primary", use_container_width=True):
             with st.spinner("AI is preparing your study material..."):
                 response = None
                 try:
-                    for attempt in range(4):
-                        response = requests.post(
-                            MODEL_URL,
-                            headers=headers,
-                            json=payload,
-                            timeout=60,
-                        )
-
-                        retryable = response.status_code in (
-                            429, 500, 502, 503, 504
-                        )
-                        if not retryable or attempt == 3:
-                            break
-
-                        wait_time = (2 ** (attempt + 1)) + random.uniform(0, 1)
-                        time.sleep(wait_time)
+                    response = request_with_retries(
+                        requests.post,
+                        MODEL_URL,
+                        headers=headers,
+                        payload=payload,
+                        timeout=60,
+                    )
 
                     if response is None:
                         st.error("No response received from Gemini. Please try again.")
