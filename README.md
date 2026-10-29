@@ -91,7 +91,7 @@ python -m pytest -q
 python -m compileall -q app.py assistant_utils.py
 ```
 
-GitHub Actions runs these checks on pushes and pull requests. The tests validate helper functions, response parsing, and retry behavior using mocked responses; they do not call the live Gemini API.
+GitHub Actions runs these checks on pushes and pull requests. The tests validate helper functions, response parsing, retry behavior, and key Streamlit UI states using mocked or missing configuration; they do not call the live Gemini API.
 
 ## 🎯 Use Cases
 
