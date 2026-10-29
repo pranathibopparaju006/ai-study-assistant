@@ -51,7 +51,7 @@ def extract_generated_text(data: Mapping[str, Any]) -> str:
             for part in parts
             if isinstance(part, dict) and isinstance(part.get("text"), str) and part["text"].strip()
         ]
-        result = "\\n".join(text_parts).strip()
+        result = "\n".join(text_parts).strip()
     except (KeyError, IndexError, TypeError, AttributeError) as exc:
         raise ValueError("Gemini response did not contain generated text") from exc
 
