@@ -66,8 +66,8 @@ if st.button("✨ Generate with AI", type="primary", use_container_width=True):
                             "parts": [
                                 {
                                     "text": (
-                                        f"{instruction}\\n\\n"
-                                        f"Study material:\\n{study_text}"
+                                        f"{instruction}\n\n"
+                                        f"Study material:\n{study_text}"
                                     )
                                 }
                             ]
