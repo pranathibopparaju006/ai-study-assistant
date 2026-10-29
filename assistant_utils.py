@@ -3,6 +3,23 @@
 from typing import Any, Mapping
 
 
+MAX_STUDY_TEXT_CHARS = 20000
+
+
+def validate_study_text(text: str, max_chars: int = MAX_STUDY_TEXT_CHARS) -> str:
+    """Trim and validate study material before sending it to the API."""
+    if not isinstance(text, str):
+        raise ValueError("Study material must be text")
+    cleaned = text.strip()
+    if not cleaned:
+        raise ValueError("Please enter notes or a topic first.")
+    if max_chars < 1:
+        raise ValueError("max_chars must be at least 1")
+    if len(cleaned) > max_chars:
+        raise ValueError(f"Study material must be {max_chars} characters or fewer.")
+    return cleaned
+
+
 INSTRUCTIONS = {
     "Summarize Notes": (
         "Summarize these notes with headings, key points, and a short conclusion."
