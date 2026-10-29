@@ -45,7 +45,7 @@ cd ai-study-assistant
 ### 2. Install dependencies
 
 ```bash
-python -m pip install streamlit requests
+python -m pip install -r requirements.txt
 ```
 
 ### 3. Configure your Gemini API key
@@ -75,6 +75,18 @@ Open the local URL displayed in the terminal, usually `http://localhost:8501`.
 3. Enter your notes or study topic.
 4. Click **Generate with AI**.
 5. Review the generated content and download it if needed.
+
+## Automated Checks
+
+Install the development dependencies and run the unit tests:
+
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+python -m compileall -q app.py assistant_utils.py
+```
+
+GitHub Actions runs these checks on pushes and pull requests. The tests validate helper functions and response parsing; they do not call the live Gemini API.
 
 ## 🎯 Use Cases
 
