@@ -43,7 +43,7 @@ def test_extract_generated_text_ignores_non_text_parts_and_trims_output():
             }
         ]
     }
-    assert extract_generated_text(response) == "Main explanation\\nExample"
+    assert extract_generated_text(response) == "Main explanation\nExample"
 
 
 @pytest.mark.parametrize("response", [{}, {"candidates": []}, {"candidates": [{"content": {"parts": []}}]}])
