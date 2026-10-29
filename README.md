@@ -11,6 +11,7 @@ An AI-powered learning companion that helps students understand study material t
 - 💡 **Concept Explanation** — Understand complex topics in simple language with examples and a recap.
 - 📥 **Download Results** — Download generated study material as a text file.
 - 🔄 **Error Handling** — Retry temporary Gemini API failures automatically.
+- 🛡️ **Input Validation** — Reject blank notes and cap each request at 20,000 characters.
 - ⚡ **Interactive Interface** — Use a simple Streamlit interface to select a study tool and enter study material.
 
 ## 🛠️ Technology Stack
@@ -28,7 +29,11 @@ An AI-powered learning companion that helps students understand study material t
 ai-study-assistant/
 ├── .streamlit/
 │   └── secrets.toml       # Local API key configuration (not committed)
-├── app.py                 # Main application
+├── app.py                 # Main Streamlit application
+├── assistant_utils.py     # Validation, prompts, response parsing, retry helper
+├── tests/                 # Mock-based unit tests
+├── requirements.txt       # Runtime dependencies
+├── requirements-dev.txt   # Test dependencies
 ├── .gitignore             # Excludes local secrets
 └── README.md              # Project documentation
 ```
