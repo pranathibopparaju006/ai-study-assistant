@@ -29,6 +29,23 @@ def test_extract_generated_text_returns_joined_text():
     assert extract_generated_text(response) == "First part\nSecond part"
 
 
+def test_extract_generated_text_ignores_non_text_parts_and_trims_output():
+    response = {
+        "candidates": [
+            {
+                "content": {
+                    "parts": [
+                        {"text": "  Main explanation  "},
+                        {"inline_data": {"mime_type": "image/png", "data": "ignored"}},
+                        {"text": "  Example  "},
+                    ]
+                }
+            }
+        ]
+    }
+    assert extract_generated_text(response) == "Main explanation\\nExample"
+
+
 @pytest.mark.parametrize("response", [{}, {"candidates": []}, {"candidates": [{"content": {"parts": []}}]}])
 def test_extract_generated_text_rejects_missing_text(response):
     with pytest.raises(ValueError, match="did not contain generated text"):
