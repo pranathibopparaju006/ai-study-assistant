@@ -114,7 +114,7 @@ def test_request_with_retries_requires_positive_attempt_count():
         )
 
 
-@pytest.mark.parametrize("text", ["", "   ", "\\n\\t"])
+@pytest.mark.parametrize("text", ["", "   ", "\n\t"])
 def test_validate_study_text_rejects_blank_input(text):
     with pytest.raises(ValueError, match="enter notes or a topic"):
         validate_study_text(text)
