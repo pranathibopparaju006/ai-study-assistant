@@ -34,6 +34,21 @@ def test_extract_generated_text_rejects_missing_text(response):
     with pytest.raises(ValueError, match="did not contain generated text"):
         extract_generated_text(response)
 
+
+@pytest.mark.parametrize(
+    "response",
+    [
+        None,
+        {"candidates": [None]},
+        {"candidates": [{"content": None}]},
+        {"candidates": [{"content": {"parts": [{"text": 123}]}}]},
+        {"candidates": [{"content": {"parts": [{"text": "  "}]}}]},
+    ],
+)
+def test_extract_generated_text_rejects_malformed_or_blank_content(response):
+    with pytest.raises(ValueError, match="did not contain generated text"):
+        extract_generated_text(response)
+
 class FakeResponse:
     def __init__(self, status_code):
         self.status_code = status_code
